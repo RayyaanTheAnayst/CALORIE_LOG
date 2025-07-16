@@ -8,6 +8,9 @@ from snowflake.snowpark.functions import col
 # -----------------------------------------------
 conn = st.connection("snowflake", type="snowflake")
 
+#cnx = st.connection("snowflake")
+#session = cnx.session()
+
 # -----------------------------------------------
 # 📦 Data Loaders
 # -----------------------------------------------
