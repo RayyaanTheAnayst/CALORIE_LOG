@@ -6,26 +6,22 @@ from snowflake.snowpark.functions import col
 # -----------------------------------------------
 # 🔗 Snowflake Connection
 # -----------------------------------------------
-conn = st.connection("snowflake", type="snowflake")
-
-#cnx = st.connection("snowflake")
-#session = cnx.session()
+cnx = st.connection("snowflake")
+session = cnx.session()
 
 # -----------------------------------------------
 # 📦 Data Loaders
 # -----------------------------------------------
 @st.cache_data
 def load_exercises():
-    with conn.session() as session:
-        return session.table("EXERCISES").to_pandas()
+    return session.table("EXERCISES").to_pandas()
 
 @st.cache_data
 def load_user_logs(username):
-    with conn.session() as session:
-        return session.table("CALORIE_LOG") \
-            .filter(col("USERNAME") == username) \
-            .sort(col("LOG_TIMESTAMP"), ascending=False) \
-            .to_pandas()
+    return session.table("CALORIE_LOG") \
+        .filter(col("USERNAME") == username) \
+        .sort(col("LOG_TIMESTAMP"), ascending=False) \
+        .to_pandas()
 
 # -----------------------------------------------
 # 🧠 Calorie Calculation Logic
@@ -52,8 +48,7 @@ def log_calorie_entry(username, exercise, duration, weight, met, calories):
         "CALORIES_BURNED": calories
     }])
 
-    with conn.session() as session:
-        session.write_pandas(data, table_name="CALORIE_LOG", overwrite=False)
+    session.write_pandas(data, table_name="CALORIE_LOG", overwrite=False)
 
 # -----------------------------------------------
 # 📈 UI: History Section
