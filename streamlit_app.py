@@ -2,7 +2,6 @@ import streamlit as st
 import pandas as pd
 from datetime import datetime
 from snowflake.snowpark.functions import col
-from snowflake.snowpark import Row
 
 # -----------------------------------------------
 # 🔗 Snowflake Connection
@@ -108,7 +107,11 @@ if __name__ == "__main__":
     main()
 
 # -----------------------------------------------
-# 🏁 Conect to the web 
+# 🔒 Optional: Debug Secrets (Dev only)
 # -----------------------------------------------
-    conn = st.connection("snowflake", type="snowflake")
-
+if st.sidebar.checkbox("🔍 Show Secrets (Dev Only)"):
+    try:
+        st.sidebar.json(st.secrets["snowflake"])
+    except Exception as e:
+        st.sidebar.error("❌ Could not load Snowflake secrets.")
+        st.sidebar.exception(e)
