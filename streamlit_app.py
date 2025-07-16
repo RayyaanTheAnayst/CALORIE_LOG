@@ -3,9 +3,6 @@ import pandas as pd
 from datetime import datetime
 from snowflake.snowpark.functions import col
 
-st.subheader("🔐 Secrets check")
-st.json(st.secrets["snowflake"])
-
 # -----------------------------------------------
 # 🔗 Snowflake Connection
 # -----------------------------------------------
